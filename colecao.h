@@ -13,5 +13,4 @@ void *gcofQuery( gCofo *c, void* key,int (*cmp)(void*,void*));
 int gcofDestroy(gCofo *c);
 void *gcofGetFirst(gCofo *c);
 void *gcofGetNext(gCofo *c);
-void *gcofEmpty(gCofo *c);
 #endif

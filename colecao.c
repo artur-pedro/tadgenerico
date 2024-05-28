@@ -114,14 +114,3 @@ void *gcofGetNext(gCofo *c)
 
 
 }
-void *gcofEmpty(gCofo *c) {
-    if (c != NULL) {
-        void *item = gcofGetFirst(c);
-
-        while (item != NULL) {
-            free(item); 
-            item = gcofGetNext(c); 
-        }
-        c->numItens = 0;
-    }
-}

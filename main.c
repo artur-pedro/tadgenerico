@@ -1,10 +1,23 @@
 #include "colecao.c"
+#include <math.h>
 
 typedef struct {
     char marca[30];
     int codigoNumerico;
     float valor;
 } pacotedCafe;
+void gcofEmpty(gCofo *c) {
+    if (c != NULL) {
+        void *item = gcofGetFirst(c);
+
+        while (item != NULL) {
+            free(item); 
+            item = gcofGetNext(c); 
+        }
+        c->numItens = 0;
+    }
+}
+
 void limparBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
@@ -41,7 +54,6 @@ return FALSE;
 int compChar(void *key, void * pacote) {
     pacotedCafe *g;
     g = (pacotedCafe*) pacote;
-    char *key_codigoNumerico = (char*) key;
     if(key != NULL) {
         if(pacote != NULL) {
             if(strcmp(key, g->marca) == 0){
@@ -55,8 +67,6 @@ return FALSE;
 
 
 int main() {
-    int opcao1;
-
     do {
         int opcao2 = telainicial();
         switch (opcao2) {  
@@ -71,7 +81,7 @@ int main() {
                     printf("Opcao invalida. Tente novamente.\n");
                     limparBuffer(); // Limpar o buffer de entrada
             }
-                if(colecao = gcofCreate(quantidadeElm)) {
+                if((colecao = gcofCreate(quantidadeElm))) {
                     printf("Colecao criado com sucesso!!!\n");
                 }
                 else {
@@ -84,7 +94,6 @@ int main() {
                 printf("Erro: colecao nao inicializada.\n");
                 break;
             }
-            int num=0;
             pacotedCafe *novoCafe;
             novoCafe = (pacotedCafe*)malloc(sizeof(pacotedCafe));
             printf("Digite a marca: \n");
@@ -102,7 +111,7 @@ int main() {
                 limparBuffer();
                 break; // Limpar o buffer de entrada
             }
-            novoCafe->valor = abs(novoCafe->valor);
+            novoCafe->valor = fabs(novoCafe->valor);
             gcofInsert(colecao, (void*)novoCafe);
             break;
             }
@@ -122,14 +131,14 @@ int main() {
                 switch (opcao) {
                     case 1: {
                         char marca[30];
-                         printf("Digite a marca do pacote a ser removido: \n");
-                         scanf("%s", marca);
-                          pacotedCafe *pacoteRemovido = (pacotedCafe *)gcofRemove(colecao, marca, compChar);
-                          if (pacoteRemovido != NULL) {
+                        printf("Digite a marca do pacote a ser removido: \n");
+                        scanf("%s", marca);
+                        pacotedCafe *pacoteRemovido = (pacotedCafe *)gcofRemove(colecao, marca, compChar);
+                        if (pacoteRemovido != NULL) {
                             printf("Pacote com a marca %s removido com sucesso.\n", marca);
                             free(pacoteRemovido); 
-                           }
-                           else {
+                        }
+                        else {
                             printf("Pacote com a marca %s nao encontrado na colecao.\n", marca);
                            }
                          
